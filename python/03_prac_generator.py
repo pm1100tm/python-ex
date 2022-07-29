@@ -12,6 +12,8 @@ Generator 는 배열이나 리스트를 리턴하는 함수와 유사하며, 호
 import random
 from typing import Type, List, Dict
 
+# from python.utils import calculate_memory
+
 
 class GeneratorEx01:
 
@@ -92,7 +94,6 @@ class GeneratorEx01:
         return employees
 
 
-
 if __name__ == "__main__":
     generator_ex_01 = GeneratorEx01()
 
@@ -117,7 +118,7 @@ if __name__ == "__main__":
 
     #############################################################################
     #### generator_ex_03
-    names: list[str] = [f"test_user_{i}" for i in range(1, 101)]
+    names: list[str] = [f"test_user_{i}" for i in range(1, 10000)]
     departments: list[str] = [
         "영업1팀",
         "영업2팀",
@@ -128,45 +129,53 @@ if __name__ == "__main__":
 
     def execute_generator():
         ret = GeneratorEx01.generator_ex3(names, departments)
-        print(ret)  # <generator object GeneratorEx01.generator_ex3 at 0x103322ea0>
         for _ in names:
-            print(next(ret))
-
-    execute_generator()
+            next(ret)
 
     def execute_general_func():
         ret = GeneratorEx01.generator_ex3_test(names, departments)
-        print(ret)
+        for e in ret:
+            a = e
+
+    import os
+    import psutil
+    import time
+
+    process = psutil.Process(os.getpid())
+    t1 = time.time()
+    mem_before = process.memory_info().rss / 1024 / 1024
+    print(f"시작 전 메모리 사용량: {mem_before} MB")
+
+    execute_generator()
+
+    t2 = time.time()
+    mem_after = process.memory_info().rss / 1024 / 1024
+    print(f"시작 후 메모리 사용량: {mem_after} MB")
+
+    total_time = t2 - t1
+    print(f"총 소요된 시간: {total_time} 초")
+
+    process = psutil.Process(os.getpid())
+    t1 = time.time()
+    mem_before = process.memory_info().rss / 1024 / 1024
+    print(f"시작 전 메모리 사용량: {mem_before} MB")
+
+    execute_general_func()
+
+    t2 = time.time()
+    mem_after = process.memory_info().rss / 1024 / 1024
+    print(f"시작 후 메모리 사용량: {mem_after} MB")
+
+    total_time = t2 - t1
+    print(f"총 소요된 시간: {total_time} 초")
+
+    ## 뭔가 잘못한 듯
+    # decorator 다시 만들기
+    
 
 
 
-# from __future__ import division
-# import os
-# import psutil
-# import random
-# import time
 
-
-# # if __name__ == '__main__':
-# #     process = psutil.Process(os.getpid())
-# #     mem_before = process.memory_info().rss / 1024 / 1024
-# #     t1 = time.time()
-# #     people = people_list(1000000)
-# #     t2 = time.time()
-# #     mem_after = process.memory_info().rss / 1024 / 1024
-# #     total_time = t2 - t1
-# #
-# #     print('*' * 50)
-# #     print('시작 전 메모리 사용량: {} MB'.format(mem_before))
-# #     print('종료 후 메모리 사용량: {} MB'.format(mem_after))
-# #     print('총 소요된 시간: {:.6f} 초'.format(total_time))
-#
-#     # **************************************************
-#     # 시작 전 메모리 사용량: 9.671875 MB
-#     # 종료 후 메모리 사용량: 284.0546875 MB
-#     # 총 소요된 시간: 1.192423 초
-#
-#
 # # if __name__ == '__main__':
 # #     process = psutil.Process(os.getpid())
 # #     mem_before = process.memory_info().rss / 1024 / 1024
@@ -187,6 +196,7 @@ if __name__ == "__main__":
 #     # 종료 후 메모리 사용량: 9.703125 MB
 #     # 총 소요된 시간: 0.000002 초
 #
+
 # # 생성된 제너레이터 오브젝트를 사용해서 데이터를 처리하는 방법
 # if __name__ == '__main__':
 #     process = psutil.Process(os.getpid())

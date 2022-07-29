@@ -72,3 +72,4 @@ Temporary Items
 # .idea/compiler.xml
 
 .idea
+__pycache__
