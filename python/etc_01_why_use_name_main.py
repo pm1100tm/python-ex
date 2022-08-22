@@ -23,4 +23,5 @@ else:
     print(f"used by {__name__} module by imported")
 
 print(1)
+print(2)
 
