@@ -21,3 +21,7 @@ if __name__ == "__main__":
 
 else:
     print(f"used by {__name__} module by imported")
+
+print(1)
+print(2)
+print(3)
